@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84572787235B403C008A5E3D /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84572786235B403C008A5E3D /* ContactTableViewCell.swift */; };
 		84B30CC3235AE4BD00A74940 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC2235AE4BD00A74940 /* AppDelegate.swift */; };
 		84B30CC5235AE4BD00A74940 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC4235AE4BD00A74940 /* SceneDelegate.swift */; };
-		84B30CC7235AE4BD00A74940 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC6235AE4BD00A74940 /* ViewController.swift */; };
+		84B30CC7235AE4BD00A74940 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC6235AE4BD00A74940 /* HomeScreenViewController.swift */; };
 		84B30CCA235AE4BD00A74940 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84B30CC8235AE4BD00A74940 /* Main.storyboard */; };
 		84B30CCC235AE4BF00A74940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84B30CCB235AE4BF00A74940 /* Assets.xcassets */; };
 		84B30CCF235AE4BF00A74940 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84B30CCD235AE4BF00A74940 /* LaunchScreen.storyboard */; };
@@ -18,6 +19,7 @@
 		84B30CF4235AE5AA00A74940 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CF3235AE5AA00A74940 /* APIClient.swift */; };
 		84B30CF6235AE60D00A74940 /* APIRestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CF5235AE60D00A74940 /* APIRestClient.swift */; };
 		84B30CF8235AEA1500A74940 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CF7235AEA1500A74940 /* APIHelper.swift */; };
+		84B30CFB235AF26F00A74940 /* ContactsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CFA235AF26F00A74940 /* ContactsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,10 +40,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		84572786235B403C008A5E3D /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		84B30CBF235AE4BD00A74940 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84B30CC2235AE4BD00A74940 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84B30CC4235AE4BD00A74940 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		84B30CC6235AE4BD00A74940 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		84B30CC6235AE4BD00A74940 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		84B30CC9235AE4BD00A74940 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84B30CCB235AE4BF00A74940 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84B30CCE235AE4BF00A74940 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,6 +58,7 @@
 		84B30CF3235AE5AA00A74940 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		84B30CF5235AE60D00A74940 /* APIRestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRestClient.swift; sourceTree = "<group>"; };
 		84B30CF7235AEA1500A74940 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
+		84B30CFA235AF26F00A74940 /* ContactsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,10 +109,12 @@
 		84B30CC1235AE4BD00A74940 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				84B30CFD235B053000A74940 /* Views */,
+				84B30CFC235B052300A74940 /* Controllers */,
+				84B30CF9235AF23700A74940 /* Models */,
 				84B30CF2235AE57800A74940 /* Networking */,
 				84B30CC2235AE4BD00A74940 /* AppDelegate.swift */,
 				84B30CC4235AE4BD00A74940 /* SceneDelegate.swift */,
-				84B30CC6235AE4BD00A74940 /* ViewController.swift */,
 				84B30CC8235AE4BD00A74940 /* Main.storyboard */,
 				84B30CCB235AE4BF00A74940 /* Assets.xcassets */,
 				84B30CCD235AE4BF00A74940 /* LaunchScreen.storyboard */,
@@ -143,6 +149,30 @@
 				84B30CF7235AEA1500A74940 /* APIHelper.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		84B30CF9235AF23700A74940 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				84B30CFA235AF26F00A74940 /* ContactsModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		84B30CFC235B052300A74940 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				84B30CC6235AE4BD00A74940 /* HomeScreenViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		84B30CFD235B053000A74940 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84572786235B403C008A5E3D /* ContactTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,11 +307,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				84B30CF8235AEA1500A74940 /* APIHelper.swift in Sources */,
-				84B30CC7235AE4BD00A74940 /* ViewController.swift in Sources */,
+				84B30CC7235AE4BD00A74940 /* HomeScreenViewController.swift in Sources */,
 				84B30CC3235AE4BD00A74940 /* AppDelegate.swift in Sources */,
 				84B30CC5235AE4BD00A74940 /* SceneDelegate.swift in Sources */,
+				84572787235B403C008A5E3D /* ContactTableViewCell.swift in Sources */,
 				84B30CF6235AE60D00A74940 /* APIRestClient.swift in Sources */,
 				84B30CF4235AE5AA00A74940 /* APIClient.swift in Sources */,
+				84B30CFB235AF26F00A74940 /* ContactsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
