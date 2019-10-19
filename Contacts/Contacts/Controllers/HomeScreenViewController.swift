@@ -9,11 +9,13 @@
 import UIKit
 
 class HomeScreenViewController: UIViewController {
+    
+    let allContacts = [Contact]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        getAllContacts()
+        getContacts()
 //        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
@@ -22,7 +24,7 @@ class HomeScreenViewController: UIViewController {
         super.viewWillAppear(animated)
     }
 
-    func getAllContacts() {
+    func getContacts() {
         API.contacts.apiRequestData(method: .get, params: ["":""]) { (result : Result<[Contact], APIRestClient.APIServiceError>) in
             switch result {
             case .success(let contacts):
@@ -36,5 +38,12 @@ class HomeScreenViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func didSelectAddButton(_ sender: Any) {
+        let contactDetailViewController : ContactDetailViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "ContactDetailViewController") as! ContactDetailViewController
+        self.navigationController?.pushViewController(contactDetailViewController, animated: true)
+        
+    }
+    
 }
 
