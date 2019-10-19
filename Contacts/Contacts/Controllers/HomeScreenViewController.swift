@@ -10,7 +10,10 @@ import UIKit
 
 class HomeScreenViewController: UIViewController {
     
-    let allContacts = [Contact]()
+    var allContacts = [Contact?]()
+    
+    @IBOutlet weak var contactsTableView: UITableView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +23,7 @@ class HomeScreenViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
     }
 
@@ -28,22 +31,50 @@ class HomeScreenViewController: UIViewController {
         API.contacts.apiRequestData(method: .get, params: ["":""]) { (result : Result<[Contact], APIRestClient.APIServiceError>) in
             switch result {
             case .success(let contacts):
-                for singleContact in contacts {
-                    print(singleContact.firstName ?? "")
-                }
-                break
-                
+                self.allContacts = contacts.sorted{ $0.firstName!.lowercased() < $1.firstName!.lowercased() }
+                self.contactsTableView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
     
-    @IBAction func didSelectAddButton(_ sender: Any) {
+    func moveToContactDetail() {
         let contactDetailViewController : ContactDetailViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "ContactDetailViewController") as! ContactDetailViewController
         self.navigationController?.pushViewController(contactDetailViewController, animated: true)
+    }
+    
+    @IBAction func didSelectAddButton(_ sender: Any) {
+        
         
     }
     
+}
+
+extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.allContacts.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return 65
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ContactTableViewCell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.identifier, for: indexPath) as! ContactTableViewCell
+        
+        guard let contact = self.allContacts[indexPath.row] else {
+            return UITableViewCell()
+        }
+        cell.configureCellUI(contact: contact)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        moveToContactDetail()
+    }
 }
 

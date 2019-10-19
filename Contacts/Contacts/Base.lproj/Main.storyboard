@@ -57,8 +57,17 @@
                                                 <constraint firstItem="wvd-5o-5UQ" firstAttribute="leading" secondItem="BeN-u7-nz1" secondAttribute="leading" constant="16" id="moL-4E-ie2"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="contactImageView" destination="wvd-5o-5UQ" id="fDU-ww-6UU"/>
+                                            <outlet property="contactIsFavImageView" destination="SYq-wp-NFO" id="PE1-SA-IvL"/>
+                                            <outlet property="contactNameLabel" destination="Zew-pm-zKG" id="CyE-Mg-TVB"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="GHl-F5-xvK"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="zQO-Op-afg"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -92,6 +101,9 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="contactsTableView" destination="EcB-MW-7ub" id="mgM-0G-ZbW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
