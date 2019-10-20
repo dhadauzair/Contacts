@@ -11,20 +11,16 @@ import UIKit
 class HomeScreenViewController: UIViewController {
     
     var allContacts = [Contact?]()
+    var sectionTitles = [String]()
+    var contactDictionary = [String: [Contact]]()
     
     @IBOutlet weak var contactsTableView: UITableView!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         getContacts()
-//        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillAppear(animated)
+        self.contactsTableView.tableFooterView = UIView()
     }
 
     func getContacts() {
@@ -32,6 +28,20 @@ class HomeScreenViewController: UIViewController {
             switch result {
             case .success(let contacts):
                 self.allContacts = contacts.sorted{ $0.firstName!.lowercased() < $1.firstName!.lowercased() }
+                
+                
+                for car in self.allContacts {
+                    let carKey = String(car?.firstName?.prefix(1).uppercased() ?? "")
+                    if var carValues = self.contactDictionary[carKey] {
+                        carValues.append(car!)
+                        self.contactDictionary[carKey] = carValues
+                    } else {
+                        self.contactDictionary[carKey] = [car!]
+                    }
+                }
+                   
+                self.sectionTitles = [String](self.contactDictionary.keys)
+                self.sectionTitles = self.sectionTitles.sorted(by: { $0 < $1 })
                 self.contactsTableView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -53,8 +63,17 @@ class HomeScreenViewController: UIViewController {
 
 extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sectionTitles.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.allContacts.count
+        let carKey = sectionTitles[section]
+        if let carValues = contactDictionary[carKey] {
+            return carValues.count
+        }
+            
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -65,16 +84,24 @@ extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : ContactTableViewCell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.identifier, for: indexPath) as! ContactTableViewCell
         
-        guard let contact = self.allContacts[indexPath.row] else {
-            return UITableViewCell()
+        let carKey = sectionTitles[indexPath.section]
+        if let carValues = contactDictionary[carKey] {
+            cell.configureCellUI(contact: carValues[indexPath.row])
         }
-        cell.configureCellUI(contact: contact)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         moveToContactDetail()
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitles[section]
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sectionTitles
     }
 }
 
