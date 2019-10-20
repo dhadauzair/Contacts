@@ -12,6 +12,8 @@
 		8457278B235B4D40008A5E3D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8457278A235B4D40008A5E3D /* Constants.swift */; };
 		8457278D235C8D0D008A5E3D /* CommonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8457278C235C8D0D008A5E3D /* CommonExtension.swift */; };
 		8457278F235CB541008A5E3D /* ContactDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8457278E235CB541008A5E3D /* ContactDetailTableViewCell.swift */; };
+		845A9B33235CD7B7001D1911 /* AddOrEditContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A9B32235CD7B7001D1911 /* AddOrEditContactsViewController.swift */; };
+		845A9B35235CDC30001D1911 /* AddOrEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A9B34235CDC30001D1911 /* AddOrEditTableViewCell.swift */; };
 		84B30CC3235AE4BD00A74940 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC2235AE4BD00A74940 /* AppDelegate.swift */; };
 		84B30CC5235AE4BD00A74940 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC4235AE4BD00A74940 /* SceneDelegate.swift */; };
 		84B30CC7235AE4BD00A74940 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B30CC6235AE4BD00A74940 /* HomeScreenViewController.swift */; };
@@ -49,6 +51,8 @@
 		8457278A235B4D40008A5E3D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8457278C235C8D0D008A5E3D /* CommonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonExtension.swift; sourceTree = "<group>"; };
 		8457278E235CB541008A5E3D /* ContactDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailTableViewCell.swift; sourceTree = "<group>"; };
+		845A9B32235CD7B7001D1911 /* AddOrEditContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditContactsViewController.swift; sourceTree = "<group>"; };
+		845A9B34235CDC30001D1911 /* AddOrEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditTableViewCell.swift; sourceTree = "<group>"; };
 		84B30CBF235AE4BD00A74940 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84B30CC2235AE4BD00A74940 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84B30CC4235AE4BD00A74940 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 			children = (
 				84B30CC6235AE4BD00A74940 /* HomeScreenViewController.swift */,
 				84572788235B4C07008A5E3D /* ContactDetailViewController.swift */,
+				845A9B32235CD7B7001D1911 /* AddOrEditContactsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 			children = (
 				84572786235B403C008A5E3D /* ContactTableViewCell.swift */,
 				8457278E235CB541008A5E3D /* ContactDetailTableViewCell.swift */,
+				845A9B34235CDC30001D1911 /* AddOrEditTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845A9B35235CDC30001D1911 /* AddOrEditTableViewCell.swift in Sources */,
 				84B30CF8235AEA1500A74940 /* APIHelper.swift in Sources */,
 				84B30CC7235AE4BD00A74940 /* HomeScreenViewController.swift in Sources */,
 				84B30CC3235AE4BD00A74940 /* AppDelegate.swift in Sources */,
@@ -325,6 +332,7 @@
 				84572789235B4C07008A5E3D /* ContactDetailViewController.swift in Sources */,
 				8457278B235B4D40008A5E3D /* Constants.swift in Sources */,
 				8457278F235CB541008A5E3D /* ContactDetailTableViewCell.swift in Sources */,
+				845A9B33235CD7B7001D1911 /* AddOrEditContactsViewController.swift in Sources */,
 				8457278D235C8D0D008A5E3D /* CommonExtension.swift in Sources */,
 				84572787235B403C008A5E3D /* ContactTableViewCell.swift in Sources */,
 				84B30CF6235AE60D00A74940 /* APIRestClient.swift in Sources */,
