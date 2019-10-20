@@ -94,6 +94,7 @@ extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         moveToContactDetail()
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
