@@ -224,6 +224,41 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hzp-kd-oGO">
                                 <rect key="frame" x="0.0" y="334" width="414" height="562"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="56" id="VkB-5G-F0L" customClass="ContactDetailTableViewCell" customModule="Contacts" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="56"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VkB-5G-F0L" id="whb-l5-E7P">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NnH-5J-6b7">
+                                                    <rect key="frame" x="50" y="17.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1q4-mP-bDi">
+                                                    <rect key="frame" x="122" y="17.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1q4-mP-bDi" secondAttribute="trailing" constant="20" symbolic="YES" id="8NU-Cl-r3Q"/>
+                                                <constraint firstItem="1q4-mP-bDi" firstAttribute="leading" secondItem="NnH-5J-6b7" secondAttribute="trailing" constant="30" id="VaO-i5-4dA"/>
+                                                <constraint firstItem="NnH-5J-6b7" firstAttribute="centerY" secondItem="whb-l5-E7P" secondAttribute="centerY" id="Xvi-FA-a6p"/>
+                                                <constraint firstItem="NnH-5J-6b7" firstAttribute="leading" secondItem="whb-l5-E7P" secondAttribute="leadingMargin" constant="30" id="jgN-PY-vAg"/>
+                                                <constraint firstItem="1q4-mP-bDi" firstAttribute="centerY" secondItem="NnH-5J-6b7" secondAttribute="centerY" id="vFh-wo-E3t"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="contactDetailKeyLabel" destination="NnH-5J-6b7" id="f13-XH-rPj"/>
+                                            <outlet property="contactDetailValueLabel" destination="1q4-mP-bDi" id="FLT-fO-s2s"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
