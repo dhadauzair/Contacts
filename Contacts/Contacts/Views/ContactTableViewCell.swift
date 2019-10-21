@@ -42,6 +42,13 @@ class ContactTableViewCell: UITableViewCell {
             }
         }
         
+        if let imageStringUrl = contact.profilePic {
+            guard let imageURLWithBaseUrl = URL(string: API.environment.baseURL + imageStringUrl) else { return }
+            contactImageView.loadImageFrom(url: imageURLWithBaseUrl)
+        } else {
+            contactImageView.image = #imageLiteral(resourceName: "placeholder_photo")
+        }
+        
     }
 
 }
