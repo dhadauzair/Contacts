@@ -45,4 +45,46 @@ extension UIView {
             gradient.startPoint = CGPoint(x: CGFloat(startPointX), y: CGFloat(startPointY))
             layer.insertSublayer(gradient, at: 0)
         }
+    
+    func activityStartAnimating() {
+        let backgroundView = UIView()
+        backgroundView.frame = CGRect.init(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        backgroundView.backgroundColor = UIColor.clear
+        backgroundView.tag = 123
+
+        var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+        activityIndicator = UIActivityIndicatorView(frame: CGRect.init(x: 0, y: 0, width: 50, height: 50))
+        activityIndicator.center = self.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.startAnimating()
+        self.isUserInteractionEnabled = false
+
+        backgroundView.addSubview(activityIndicator)
+
+        self.addSubview(backgroundView)
+    }
+
+    func activityStopAnimating() {
+        if let background = viewWithTag(123){
+            background.removeFromSuperview()
+        }
+        self.isUserInteractionEnabled = true
+    }
 }
+
+extension UIImageView {
+    func loadImageFrom(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
+

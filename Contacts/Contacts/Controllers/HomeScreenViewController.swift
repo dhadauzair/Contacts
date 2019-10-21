@@ -24,6 +24,7 @@ class HomeScreenViewController: UIViewController {
     }
 
     func getContacts() {
+        self.view.activityStartAnimating()
         API.contacts.apiRequestData(method: .get, params: ["":""]) { (result : Result<[Contact], APIRestClient.APIServiceError>) in
             switch result {
             case .success(let contacts):
@@ -43,8 +44,10 @@ class HomeScreenViewController: UIViewController {
                 self.sectionTitles = [String](self.contactDictionary.keys)
                 self.sectionTitles = self.sectionTitles.sorted(by: { $0 < $1 })
                 self.contactsTableView.reloadData()
+                self.view.activityStopAnimating()
             case .failure(let error):
                 print(error.localizedDescription)
+                self.view.activityStopAnimating()
             }
         }
     }
