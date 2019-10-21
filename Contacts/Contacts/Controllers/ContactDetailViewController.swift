@@ -10,7 +10,7 @@ import UIKit
 
 class ContactDetailViewController: UIViewController {
 
-    @IBOutlet weak var contactDetailSuperView: UIView!
+    @IBOutlet weak var gradientSuperView: UIView!
     
     
     override func viewDidLoad() {
@@ -18,7 +18,7 @@ class ContactDetailViewController: UIViewController {
         setNavigationUI()
         let whiteCGColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor
         let greenCGColor = #colorLiteral(red: 0.3607843137, green: 0.9019607843, blue: 0.8039215686, alpha: 0.2).cgColor
-        contactDetailSuperView.setGradient(colors: [whiteCGColor,greenCGColor])
+        gradientSuperView.setGradient(colors: [whiteCGColor,greenCGColor])
     }
     
 

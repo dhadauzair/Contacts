@@ -49,14 +49,18 @@ class HomeScreenViewController: UIViewController {
         }
     }
     
-    func moveToContactDetail() {
+    func moveToContactDetailViewController() {
         let contactDetailViewController : ContactDetailViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "ContactDetailViewController") as! ContactDetailViewController
         self.navigationController?.pushViewController(contactDetailViewController, animated: true)
     }
     
+    func moveToAddOrEditContactsViewController() {
+        let addOrEditViewController : AddOrEditContactsViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "AddOrEditContactsViewController") as! AddOrEditContactsViewController
+        self.navigationController?.pushViewController(addOrEditViewController, animated: true)
+    }
+    
     @IBAction func didSelectAddButton(_ sender: Any) {
-        
-        
+        moveToAddOrEditContactsViewController()
     }
     
 }
@@ -93,7 +97,7 @@ extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        moveToContactDetail()
+        moveToContactDetailViewController()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
