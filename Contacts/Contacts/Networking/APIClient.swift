@@ -107,11 +107,23 @@ extension APIClient {
         self.restClient.apiDataTask(url: url, method: method, headers: nil, parameters: params, result: { (result) in
             switch result {
             case .success(let (response, data)):
-                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-                    completion(.failure(.invalidResponse))
+                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 201 == statusCode else {
+                    
+                    switch (response as? HTTPURLResponse)?.statusCode {
+                    case 404:
+                        completion(.failure(.notFound404))
+                    case 500:
+                        completion(.failure(.internalServerError500))
+                    case 422:
+                        completion(.failure(.validationErrors422))
+                    default:
+                        completion(.failure(.invalidResponse))
+                    }
                     return
                 }
-                
+                print("\n📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍")
+                print("\nResponse:👉 \(data.json())")
+                print("\n📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍")
                 do {
                     let values = try self.jsonDecoder.decode(T.self, from: data)
                     completion(.success(values))
