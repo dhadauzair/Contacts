@@ -15,6 +15,7 @@ protocol APIEnvironmentRequirements {
 
 enum API : String {
     case contacts       = "contacts.json"
+    case detailContact  = "contacts/"
 }
 
 
@@ -106,9 +107,14 @@ extension API : APICallRequirements {
 //        let finalParams = self.finalParameters(from: params)
         let headers = self.apiHeader
         
-        
-        
-        API.client.apiRequestData(headers: headers, params: params, url: URL(string: self.url)!, method: method ?? .post, completion: completion)
+        switch self {
+        case .detailContact:
+            let url = self.url + (params["contactID"] as! String) + ".json"
+            let params = ["":""]
+            API.client.apiRequestData(headers: headers, params: params, url: URL(string: url)!, method: method ?? .post, completion: completion)
+        default:
+            API.client.apiRequestData(headers: headers, params: params, url: URL(string: self.url)!, method: method ?? .post, completion: completion)
+        }
     }
     
 
