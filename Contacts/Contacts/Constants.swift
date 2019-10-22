@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 
+enum ConstantStrings:String {
+    case contactID
+    case Gallery
+    case Camera
+    case Remove
+    case Cancel
+    case invalidPhoneNumber = "Kindly Enter proper mobile number."
+}
+
 class Constants: NSObject {
     struct Screen
     {
