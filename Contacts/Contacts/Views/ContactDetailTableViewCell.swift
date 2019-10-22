@@ -27,5 +27,19 @@ class ContactDetailTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configureCellUI(contact : ContactDetail, forRow row: Int) {
+        if row == 0 {
+            contactDetailKeyLabel.text = "mobile"
+            if let mobileNumber = contact.phoneNumber {
+                contactDetailValueLabel.text = mobileNumber
+            }
+        } else {
+            contactDetailKeyLabel.text = "email"
+            if let email = contact.email {
+                contactDetailValueLabel.text = email
+            }
+        }
+    }
 
 }
