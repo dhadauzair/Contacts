@@ -43,6 +43,10 @@ class APIRestClient {
         case noData // No data available
         case decodeError // Json parsing error
         case successWithError(Any)
+        case notFound404
+        case internalServerError500
+        case validationErrors422
+        
     }
     
     enum HTTPMethod : String {
