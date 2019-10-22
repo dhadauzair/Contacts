@@ -86,5 +86,41 @@ extension UIImageView {
             }
         }
     }
+    
+    func setborderWithWidth(width : CGFloat) {
+        self.layer.borderWidth = width
+    }
+    
+    func setBorderColor(color : CGColor) {
+        self.layer.borderColor = color
+    }
+    
+}
+
+extension String {
+    var isPhoneNumber: Bool {
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
+            let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
+            if let res = matches.first {
+                return res.resultType == .phoneNumber && res.range.location == 0 && res.range.length == self.count
+            } else {
+                return false
+            }
+        } catch {
+            return false
+        }
+    }
+}
+    
+extension UIViewController {
+    
+    func alert(message: String, title: String ) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
 
