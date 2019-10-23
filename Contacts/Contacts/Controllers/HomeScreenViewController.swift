@@ -31,7 +31,9 @@ class HomeScreenViewController: UIViewController {
 
     //MARK:- Custom Methods
     func getContacts() {
-        self.view.activityStartAnimating()
+        if self.refreshControl.isRefreshing == false {
+            self.view.activityStartAnimating()
+        }
         API.contacts.apiRequestData(method: .get, params: ["":""]) { (result : Result<[Contact], APIRestClient.APIServiceError>) in
             switch result {
             case .success(let contacts):
