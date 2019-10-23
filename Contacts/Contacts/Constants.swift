@@ -15,7 +15,9 @@ enum ConstantStrings:String {
     case Camera
     case Remove
     case Cancel
-    case invalidPhoneNumber = "Kindly Enter proper mobile number."
+    case invalidPhoneNumber = "Please Enter valid mobile number."
+    case invalidEmailAddress = "Please Enter valid email id."
+    
 }
 
 class Constants: NSObject {
