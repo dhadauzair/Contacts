@@ -10,9 +10,14 @@ import UIKit
 
 class HomeScreenViewController: UIViewController {
     
-    var allContacts = [Contact?]()
+    var allContacts = [Contact]()
     var sectionTitles = [String]()
     var contactDictionary = [String: [Contact]]()
+    var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshContactsTableView), for: .valueChanged)
+        return refreshControl
+    }()
     
     @IBOutlet weak var contactsTableView: UITableView!
     
@@ -21,6 +26,7 @@ class HomeScreenViewController: UIViewController {
         super.viewDidLoad()
         getContacts()
         self.contactsTableView.tableFooterView = UIView()
+        contactsTableView.addSubview(refreshControl)
     }
 
     //MARK:- Custom Methods
@@ -30,22 +36,7 @@ class HomeScreenViewController: UIViewController {
             switch result {
             case .success(let contacts):
                 self.allContacts = contacts.sorted{ $0.firstName!.lowercased() < $1.firstName!.lowercased() }
-                
-                
-                for car in self.allContacts {
-                    let carKey = String(car?.firstName?.prefix(1).uppercased() ?? "")
-                    if var carValues = self.contactDictionary[carKey] {
-                        carValues.append(car!)
-                        self.contactDictionary[carKey] = carValues
-                    } else {
-                        self.contactDictionary[carKey] = [car!]
-                    }
-                }
-                   
-                self.sectionTitles = [String](self.contactDictionary.keys)
-                self.sectionTitles = self.sectionTitles.sorted(by: { $0 < $1 })
-                self.contactsTableView.reloadData()
-                self.view.activityStopAnimating()
+                self.populateUI()
             case .failure(let error):
                 switch error {
                 case .internalServerError500:
@@ -59,19 +50,45 @@ class HomeScreenViewController: UIViewController {
                 }
                 print(error.localizedDescription)
                 self.view.activityStopAnimating()
+                self.refreshControl.endRefreshing()
             }
         }
+    }
+    
+    func populateUI()  {
+        
+        for singleContact in self.allContacts {
+            let prefix = String(singleContact.firstName?.prefix(1).uppercased() ?? "")
+            if var carValues = self.contactDictionary[prefix] {
+                carValues.append(singleContact)
+                self.contactDictionary[prefix] = carValues
+            } else {
+                self.contactDictionary[prefix] = [singleContact]
+            }
+        }
+           
+        self.sectionTitles = [String](self.contactDictionary.keys)
+        self.sectionTitles = self.sectionTitles.sorted(by: { $0 < $1 })
+        self.contactsTableView.reloadData()
+        self.view.activityStopAnimating()
+        self.refreshControl.endRefreshing()
     }
     
     func moveToContactDetailViewController(withContactID contactId : Int) {
         let contactDetailViewController : ContactDetailViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "ContactDetailViewController") as! ContactDetailViewController
         contactDetailViewController.contactId = contactId
+        contactDetailViewController.delegate = self
         self.navigationController?.pushViewController(contactDetailViewController, animated: true)
     }
     
     func moveToAddOrEditContactsViewController() {
         let addOrEditViewController : AddOrEditContactsViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "AddOrEditContactsViewController") as! AddOrEditContactsViewController
         self.navigationController?.pushViewController(addOrEditViewController, animated: true)
+    }
+    
+    @objc func refreshContactsTableView() {
+        refreshControl.beginRefreshing()
+        getContacts()
     }
     
     //MARK:- IBOutlet Methods
@@ -128,6 +145,17 @@ extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate 
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return sectionTitles
+    }
+}
+
+extension HomeScreenViewController : ParentControllerDelegate {
+    func notifyParentController(ForText text: String, withTag tag: Int) {
+        
+    }
+    
+    func notifyParentControllerModelFavouriteChanged(contactDetail: ContactDetail) {
+        self.allContacts.filter({ $0.id == contactDetail.id }).first?.favorite = contactDetail.favorite
+        self.populateUI()
     }
 }
 
