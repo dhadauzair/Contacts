@@ -38,7 +38,9 @@ class ContactTableViewCell: UITableViewCell {
         
         if let isContactFav = contact.favorite {
             if isContactFav {
-                contactIsFavImageView.image = #imageLiteral(resourceName: "favourite_button_selected")
+                contactIsFavImageView.isHidden = false
+            } else {
+                contactIsFavImageView.isHidden = true
             }
         }
         
