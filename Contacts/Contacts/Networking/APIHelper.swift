@@ -72,7 +72,7 @@ extension API : APICallRequirements {
     }
     
     var apiHeader: [String : String]! {
-        return [:]
+        return ["Content-Type":"application/json"]
     }
     
 //    func finalParameters(from parameters: [String : Any]) -> [String : Any] {
@@ -110,7 +110,8 @@ extension API : APICallRequirements {
         switch self {
         case .detailContact:
             let url = self.url + (params["contactID"] as! String) + ".json"
-            let params = ["":""]
+            var params = params
+            params.removeValue(forKey: "contactID")
             API.client.apiRequestData(headers: headers, params: params, url: URL(string: url)!, method: method ?? .post, completion: completion)
         default:
             API.client.apiRequestData(headers: headers, params: params, url: URL(string: self.url)!, method: method ?? .post, completion: completion)
