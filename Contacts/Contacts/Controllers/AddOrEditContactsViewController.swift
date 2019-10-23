@@ -122,21 +122,39 @@ class AddOrEditContactsViewController: UIViewController {
             self.alert(message: ConstantStrings.invalidPhoneNumber.rawValue, title: "")
             return
         }
+        
+        guard contactDetail.email?.isValidEmail ?? false else {
+            self.alert(message: ConstantStrings.invalidEmailAddress.rawValue, title: "")
+            return
+        }
+        let date = Date()
         let param = [/*"id": 1,*/
             "first_name": contactDetail.firstName ?? "",
             "last_name": contactDetail.lastName ?? "",
             "email": contactDetail.email ?? "",
             "phone_number": contactDetail.phoneNumber ?? "",
             "profile_pic": "https://contacts-app.s3-ap-southeast-1.amazonaws.com/contacts/profile_pics/000/000/007/original/ab.jpg?1464516610",
-            "favorite": contactDetail.favorite ?? false] as [String : Any]
+            "favorite": contactDetail.favorite ?? false,
+            "created_at": date.stringFromDate(date: date),
+            "updated_at": date.stringFromDate(date: date)] as [String : Any]
         API.contacts.apiRequestData(method: .post, params: param) { (result : Result<[Contact], APIRestClient.APIServiceError>) in
             switch result {
             case .success(let status):
                 print(status)
                 self.view.activityStopAnimating()
             case .failure(let error):
-                print(error.localizedDescription)
-                self.view.activityStopAnimating()
+            switch error {
+            case .internalServerError500:
+                self.alert(message: "Internal Server Error", title: "")
+            case .notFound404:
+                self.alert(message: "Not Found", title: "")
+            case .validationErrors422:
+                self.alert(message: "Validation Error", title: "")
+            default:
+                self.alert(message: error.localizedDescription, title: "")
+            }
+            print(error.localizedDescription)
+            self.view.activityStopAnimating()
             }
         }
     }
@@ -162,6 +180,10 @@ extension AddOrEditContactsViewController : UITableViewDelegate, UITableViewData
 }
 
 extension AddOrEditContactsViewController : ParentControllerDelegate {
+    func notifyParentControllerModelFavouriteChanged(contactDetail: ContactDetail) {
+        
+    }
+    
     func notifyParentController(ForText text: String, withTag tag: Int) {
         switch tag {
         case 0:
