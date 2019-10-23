@@ -14,6 +14,7 @@ class ContactDetailViewController: UIViewController {
     var contactId : Int?
     var contactDetail : ContactDetail?
     var numberOfRow = 0
+    var delegate : ParentControllerDelegate!
     @IBOutlet weak var gradientSuperView: UIView!
     @IBOutlet weak var contactImageView: UIImageView!
     @IBOutlet weak var favouriteButton: UIButton!
@@ -96,6 +97,41 @@ class ContactDetailViewController: UIViewController {
         }
     }
     
+    func setContactToFavourite(isFavourite : Bool) {
+        if let contactId = contactId {
+            self.view.activityStartAnimating()
+            let date = Date()
+            let param = [ConstantStrings.contactID.rawValue: "\(contactId)" ,
+                         "favorite": self.contactDetail?.favorite ?? false,
+                         "updated_at": date.stringFromDate(date: date)] as [String : Any]
+            API.detailContact.apiRequestData(method: .put, params: param) { (result : Result<ContactDetail, APIRestClient.APIServiceError>) in
+                switch result {
+                case .success(let contactDetail):
+                    print(contactDetail)
+                    self.contactDetail = contactDetail
+                    self.configureUI()
+                    self.numberOfRow = 2
+                    self.contactDetailTableView.reloadData()
+                    self.view.activityStopAnimating()
+                    self.delegate.notifyParentControllerModelFavouriteChanged(contactDetail: contactDetail)
+                case .failure(let error):
+                    switch error {
+                    case .internalServerError500:
+                        self.alert(message: "Internal Server Error", title: "")
+                    case .notFound404:
+                        self.alert(message: "Not Found", title: "")
+                    case .validationErrors422:
+                        self.alert(message: "Validation Error", title: "")
+                    default:
+                        self.alert(message: error.localizedDescription, title: "")
+                    }
+                    print(error.localizedDescription)
+                    self.view.activityStopAnimating()
+                }
+            }
+        }
+    }
+    
     func sendMessage() {
         if (MFMessageComposeViewController.canSendText()) {
             let controller = MFMessageComposeViewController()
@@ -149,6 +185,18 @@ class ContactDetailViewController: UIViewController {
     }
     
     @IBAction func didSelectFavouriteButton(_ sender: Any) {
+        if let contactDetail = contactDetail {
+            if let isFavourite = contactDetail.favorite {
+                if isFavourite {
+//                    favouriteButton.setImage(#imageLiteral(resourceName: "favourite_button"), for: .normal)
+                    self.contactDetail?.favorite = false
+                } else {
+//                    favouriteButton.setImage(#imageLiteral(resourceName: "favourite_button_selected"), for: .normal)
+                    self.contactDetail?.favorite = true
+                }
+                self.setContactToFavourite(isFavourite: self.contactDetail?.favorite ?? false)
+            }
+        }
     }
     
     @IBAction func didSelectEditButton(_ sender: Any) {
@@ -158,8 +206,6 @@ class ContactDetailViewController: UIViewController {
         }
         self.navigationController?.pushViewController(addOrEditViewController, animated: true)
     }
-    
-    
 }
 
 extension ContactDetailViewController : UITableViewDelegate, UITableViewDataSource {
