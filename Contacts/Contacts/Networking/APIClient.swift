@@ -104,10 +104,10 @@ extension APIClient {
         print("\nAPI Params:👉 \(params.json())\n")
         print("\n📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍")
         
-        self.restClient.apiDataTask(url: url, method: method, headers: nil, parameters: params, result: { (result) in
+        self.restClient.apiDataTask(url: url, method: method, headers: headers, parameters: params, result: { (result) in
             switch result {
             case .success(let (response, data)):
-                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 201 == statusCode else {
+                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200...201 ~= statusCode else {
                     
                     switch (response as? HTTPURLResponse)?.statusCode {
                     case 404:
@@ -122,7 +122,7 @@ extension APIClient {
                     return
                 }
                 print("\n📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍")
-                print("\nResponse:👉 \(data.json())")
+                print("\nResponse:👉 \(String(describing: data.json()))")
                 print("\n📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍📍")
                 do {
                     let values = try self.jsonDecoder.decode(T.self, from: data)
