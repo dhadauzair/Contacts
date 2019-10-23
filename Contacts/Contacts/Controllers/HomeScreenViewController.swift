@@ -83,6 +83,7 @@ class HomeScreenViewController: UIViewController {
     
     func moveToAddOrEditContactsViewController() {
         let addOrEditViewController : AddOrEditContactsViewController = Constants.Screen.storyboard.instantiateViewController(withIdentifier: "AddOrEditContactsViewController") as! AddOrEditContactsViewController
+        addOrEditViewController.delegate = self
         self.navigationController?.pushViewController(addOrEditViewController, animated: true)
     }
     
@@ -149,6 +150,21 @@ extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate 
 }
 
 extension HomeScreenViewController : ParentControllerDelegate {
+    func notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: Bool, with contactDetail: ContactDetail) {
+        if isContactEdited {
+            self.alert(message: "Contact Editd", title: "")
+            self.allContacts.removeAll(where: { $0.id  == contactDetail.id })
+        } else {
+            self.alert(message: "Contact Added", title: "")
+        }
+        let contact = Contact(id: contactDetail.id, firstName: contactDetail.firstName, lastName: contactDetail.lastName, profilePic: contactDetail.profilePic, favorite: contactDetail.favorite, url: contactDetail.url)
+        var allContacts = self.allContacts
+        allContacts.append(contact)
+        self.allContacts.removeAll()
+        self.allContacts = allContacts.sorted{ $0.firstName!.lowercased() < $1.firstName!.lowercased() }
+        self.populateUI()
+    }
+    
     func notifyParentController(ForText text: String, withTag tag: Int) {
         
     }

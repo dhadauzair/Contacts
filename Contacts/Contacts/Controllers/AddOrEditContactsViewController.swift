@@ -13,6 +13,8 @@ class AddOrEditContactsViewController: UIViewController {
     
     var contactDetail : ContactDetail = ContactDetail()
     var imagePickerController = UIImagePickerController()
+    var isContactEditing = false
+    var delegate : ParentControllerDelegate!
     
     @IBOutlet weak var gradientSuperView: UIView!
     @IBOutlet weak var contactDetailTableView: UITableView!
@@ -136,25 +138,28 @@ class AddOrEditContactsViewController: UIViewController {
             "profile_pic": "https://contacts-app.s3-ap-southeast-1.amazonaws.com/contacts/profile_pics/000/000/007/original/ab.jpg?1464516610",
             "favorite": contactDetail.favorite ?? false,
             "created_at": date.stringFromDate(date: date),
-            "updated_at": date.stringFromDate(date: date)] as [String : Any]
-        API.contacts.apiRequestData(method: .post, params: param) { (result : Result<[Contact], APIRestClient.APIServiceError>) in
+            /*"updated_at": date.stringFromDate(date: date)*/] as [String : Any]
+        self.view.activityStartAnimating()
+        API.contacts.apiRequestData(method: .post, params: param) { (result : Result<ContactDetail, APIRestClient.APIServiceError>) in
             switch result {
-            case .success(let status):
-                print(status)
+            case .success(let contactDetail):
                 self.view.activityStopAnimating()
+               self.navigationController?.popViewController(animated: true)
+                self.delegate.notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: self.isContactEditing, with : contactDetail)
+                
             case .failure(let error):
-            switch error {
-            case .internalServerError500:
-                self.alert(message: "Internal Server Error", title: "")
-            case .notFound404:
-                self.alert(message: "Not Found", title: "")
-            case .validationErrors422:
-                self.alert(message: "Validation Error", title: "")
-            default:
-                self.alert(message: error.localizedDescription, title: "")
-            }
-            print(error.localizedDescription)
-            self.view.activityStopAnimating()
+                switch error {
+                case .internalServerError500:
+                    self.alert(message: "Internal Server Error", title: "")
+                case .notFound404:
+                    self.alert(message: "Not Found", title: "")
+                case .validationErrors422:
+                    self.alert(message: "Validation Error", title: "")
+                default:
+                    self.alert(message: error.localizedDescription, title: "")
+                }
+                print(error.localizedDescription)
+                self.view.activityStopAnimating()
             }
         }
     }
@@ -180,6 +185,10 @@ extension AddOrEditContactsViewController : UITableViewDelegate, UITableViewData
 }
 
 extension AddOrEditContactsViewController : ParentControllerDelegate {
+    func notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: Bool, with contactDetail: ContactDetail) {
+        
+    }
+    
     func notifyParentControllerModelFavouriteChanged(contactDetail: ContactDetail) {
         
     }

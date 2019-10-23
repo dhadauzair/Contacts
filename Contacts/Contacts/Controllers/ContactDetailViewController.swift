@@ -204,6 +204,8 @@ class ContactDetailViewController: UIViewController {
         if let contactDetail = self.contactDetail {
             addOrEditViewController.contactDetail = contactDetail
         }
+        addOrEditViewController.isContactEditing = true
+        addOrEditViewController.delegate = self
         self.navigationController?.pushViewController(addOrEditViewController, animated: true)
     }
 }
@@ -240,4 +242,20 @@ extension ContactDetailViewController : MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
+}
+
+extension ContactDetailViewController : ParentControllerDelegate {
+    func notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: Bool, with contactDetail: ContactDetail) {
+        
+    }
+    
+    func notifyParentController(ForText text: String, withTag tag: Int) {
+        
+    }
+    
+    func notifyParentControllerModelFavouriteChanged(contactDetail: ContactDetail) {
+        
+    }
+    
+    
 }
