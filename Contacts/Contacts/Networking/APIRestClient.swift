@@ -50,7 +50,7 @@ class APIRestClient {
     }
     
     enum HTTPMethod : String {
-        case get, post
+        case get, post, put
     }
     
     fileprivate let urlSession:URLSession
@@ -306,7 +306,10 @@ extension URLSession {
             }else {
                 //Get parameter value must be string for every key
             }
-        }else {
+        } else if let method = method, method == .put {
+            request.httpMethod = "PUT"
+            request.configurePostRquest(params: parameters)
+        } else {
             request.httpMethod = "POST"
             request.configurePostRquest(params: parameters)
         }
