@@ -10,6 +10,7 @@ import UIKit
 
 protocol ParentControllerDelegate {
     func notifyParentController(ForText text: String, withTag tag:Int)
+    func notifyParentControllerModelFavouriteChanged(contactDetail : ContactDetail)
 }
 
 class AddOrEditTableViewCell: UITableViewCell {
