@@ -46,11 +46,12 @@ class APIRestClient {
         case notFound404
         case internalServerError500
         case validationErrors422
+        case successWith204
         
     }
     
     enum HTTPMethod : String {
-        case get, post, put
+        case get, post, put, delete
     }
     
     fileprivate let urlSession:URLSession
@@ -308,6 +309,9 @@ extension URLSession {
             }
         } else if let method = method, method == .put {
             request.httpMethod = "PUT"
+            request.configurePostRquest(params: parameters)
+        } else if let method = method, method == .delete {
+            request.httpMethod = "DELETE"
             request.configurePostRquest(params: parameters)
         } else {
             request.httpMethod = "POST"
