@@ -246,7 +246,11 @@ extension ContactDetailViewController : MFMailComposeViewControllerDelegate {
 
 extension ContactDetailViewController : ParentControllerDelegate {
     func notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: Bool, with contactDetail: ContactDetail) {
-        
+        self.contactDetail = contactDetail
+        self.configureUI()
+        self.numberOfRow = 2
+        self.contactDetailTableView.reloadData()
+        delegate.notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: true, with: contactDetail)
     }
     
     func notifyParentController(ForText text: String, withTag tag: Int) {
