@@ -130,7 +130,7 @@ class AddOrEditContactsViewController: UIViewController {
             return
         }
         let date = Date()
-        let param = [/*"id": 1,*/
+        var param = [/*"id": 1,*/
             "first_name": contactDetail.firstName ?? "",
             "last_name": contactDetail.lastName ?? "",
             "email": contactDetail.email ?? "",
@@ -139,7 +139,18 @@ class AddOrEditContactsViewController: UIViewController {
             "favorite": contactDetail.favorite ?? false,
             "created_at": date.stringFromDate(date: date),
             /*"updated_at": date.stringFromDate(date: date)*/] as [String : Any]
+        if self.isContactEditing {
+            param["contactID"] = "\(contactDetail.id ?? 0)"
+            self.updateContact(param: param)
+        } else {
+            self.createNewContact(param: param)
+        }
+        
+    }
+    
+    func createNewContact(param: [String:Any]) {
         self.view.activityStartAnimating()
+        
         API.contacts.apiRequestData(method: .post, params: param) { (result : Result<ContactDetail, APIRestClient.APIServiceError>) in
             switch result {
             case .success(let contactDetail):
@@ -162,6 +173,34 @@ class AddOrEditContactsViewController: UIViewController {
                 self.view.activityStopAnimating()
             }
         }
+    }
+    
+    func updateContact(param: [String:Any]) {
+        self.view.activityStartAnimating()
+        
+        API.detailContact.apiRequestData(method: .put, params: param) { (result : Result<ContactDetail, APIRestClient.APIServiceError>) in
+            switch result {
+            case .success(let contactDetail):
+                self.view.activityStopAnimating()
+               self.navigationController?.popViewController(animated: true)
+                self.delegate.notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: self.isContactEditing, with : contactDetail)
+                
+            case .failure(let error):
+                switch error {
+                case .internalServerError500:
+                    self.alert(message: "Internal Server Error", title: "")
+                case .notFound404:
+                    self.alert(message: "Not Found", title: "")
+                case .validationErrors422:
+                    self.alert(message: "Validation Error", title: "")
+                default:
+                    self.alert(message: error.localizedDescription, title: "")
+                }
+                print(error.localizedDescription)
+                self.view.activityStopAnimating()
+            }
+        }
+        
     }
 }
 
