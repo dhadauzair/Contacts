@@ -57,15 +57,58 @@ class HomeScreenViewController: UIViewController {
         }
     }
     
+    func deleteContactFor(contactId : Int, With indexPath: IndexPath) {
+        self.view.activityStartAnimating()
+        API.detailContact.apiRequestData(method: .delete, params: ["contactID":"\(contactId)"]) { (result : Result<String, APIRestClient.APIServiceError>) in
+            switch result {
+            case .success( _):
+                break
+            case .failure(let error):
+                switch error {
+                case .internalServerError500:
+                    self.alert(message: "Internal Server Error", title: "")
+                case .notFound404:
+                    self.alert(message: "Not Found", title: "")
+                case .validationErrors422:
+                    self.alert(message: "Validation Error", title: "")
+                case .successWith204:
+                    self.allContacts.remove(at: indexPath.row)
+                    self.sectionTitles.removeAll()
+                    self.contactDictionary.removeAll()
+                    for singleContact in self.allContacts {
+                        let prefixKey = String(singleContact.firstName?.prefix(1).uppercased() ?? "")
+                        if var prefixValue = self.contactDictionary[prefixKey] {
+                            prefixValue.append(singleContact)
+                            self.contactDictionary[prefixKey] = prefixValue
+                        } else {
+                            self.contactDictionary[prefixKey] = [singleContact]
+                        }
+                    }
+                       
+                    self.sectionTitles = [String](self.contactDictionary.keys)
+                    self.sectionTitles = self.sectionTitles.sorted(by: { $0 < $1 })
+                    self.contactsTableView.deleteRows(at: [indexPath], with: .fade)
+                default:
+                    self.alert(message: error.localizedDescription, title: "")
+                }
+                print(error.localizedDescription)
+                self.view.activityStopAnimating()
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     func populateUI()  {
         
+        self.sectionTitles.removeAll()
+        self.contactDictionary.removeAll()
         for singleContact in self.allContacts {
-            let prefix = String(singleContact.firstName?.prefix(1).uppercased() ?? "")
-            if var carValues = self.contactDictionary[prefix] {
-                carValues.append(singleContact)
-                self.contactDictionary[prefix] = carValues
+            let prefixKey = String(singleContact.firstName?.prefix(1).uppercased() ?? "")
+            if var prefixValue = self.contactDictionary[prefixKey] {
+                prefixValue.append(singleContact)
+                self.contactDictionary[prefixKey] = prefixValue
             } else {
-                self.contactDictionary[prefix] = [singleContact]
+                self.contactDictionary[prefixKey] = [singleContact]
             }
         }
            
@@ -74,6 +117,7 @@ class HomeScreenViewController: UIViewController {
         self.contactsTableView.reloadData()
         self.view.activityStopAnimating()
         self.refreshControl.endRefreshing()
+        
     }
     
     func moveToContactDetailViewController(withContactID contactId : Int) {
@@ -149,12 +193,22 @@ extension HomeScreenViewController : UITableViewDataSource, UITableViewDelegate 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return sectionTitles
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let contactId = self.allContacts[indexPath.row].id
+            if let contactId = contactId {
+                self.deleteContactFor(contactId: contactId, With: indexPath)
+            }
+        }
+    }
 }
 
 extension HomeScreenViewController : ParentControllerDelegate {
     func notifyParentControllerIfContactIsSuccessfulltAddedOrEdited(isContactEdited: Bool, with contactDetail: ContactDetail) {
         if isContactEdited {
-            self.alert(message: "Contact Editd", title: "")
+            self.alert(message: "Contact Edited", title: "")
             self.allContacts.removeAll(where: { $0.id  == contactDetail.id })
         } else {
             self.alert(message: "Contact Added", title: "")
